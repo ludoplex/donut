@@ -19,16 +19,12 @@ sources            = ['donut.c',
                       'loader/clib.c', 
                       'donutmodule.c']
 
-if sys.platform == 'win32':
+if sys.platform in ['win32', 'win64']:
     libraries.extend(static_libraries)
     library_dirs.append(static_lib_dir)
     extra_objects = []
-elif sys.platform == 'win64':
-    libraries.extend(static_libraries)
-    library_dirs.append(static_lib_dir)
-    extra_objects = []    
-else: # POSIX
-    extra_objects = ['{}/{}.a'.format(static_lib_dir, l) for l in static_libraries]
+else:
+    extra_objects = [f'{static_lib_dir}/{l}.a' for l in static_libraries]
 
 
 module = Extension(
